@@ -24,4 +24,5 @@ done
 
 echo "MySQL is up - executing command"
 
+composer install
 php artisan serve --port=8080
