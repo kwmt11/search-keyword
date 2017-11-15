@@ -24,5 +24,7 @@ done
 
 echo "MySQL is up - executing command"
 
+echo "memory_limit = 2048M" >> /etc/php.ini
+
 composer install
-php artisan serve --port=8080
+php artisan serve --port 8080 --host 0.0.0.0
