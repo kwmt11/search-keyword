@@ -14,7 +14,7 @@ services:
             MYSQL_PASSWORD: docker
             MYSQL_ROOT_PASSWORD: hoge
     app:
-        image: centos7:latest
+        image: motikan2010/centos7_php7:latest
         depends_on: 
             - db
         ports:
