@@ -40,6 +40,7 @@
 
 * github.com にプッシュしてリポジトリのURLを提出してください
     * 【例】https://github.com/team-lab/teamlab-kadai-search-keyword-php
+    * 差分が分かるようにこのサンプルのコミットと自分がチューニングしたコミットは分けてください
     * README.md ファイルを作成し、チューニングした内容を説明してください
 
 ## サンプルアプリケーションの説明
@@ -100,8 +101,6 @@
    * ユーザ情報を格納するテーブルです。
 * activity 10万件
    * ユーザの閲覧履歴を格納するテーブルです。
-* ER図
-![ER図](https://raw.githubusercontent.com/team-lab/teamlab-kadai-search-keyword/master/ER.png "ER")
 
 ### ローカル環境構築
 
@@ -136,3 +135,8 @@ docker-machine --version
 docker-compose up
 ```
 ※起動毎に「mydb.sql」「alter.sql」が実行されます。
+
+```
+app_1  | Laravel development server started: <http://0.0.0.0:8080>
+```
+が表示されたら、ブラウザで http://localhost:8080 確認。
