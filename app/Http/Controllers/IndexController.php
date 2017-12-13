@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Libs\PageUtility;
 
+/**
+ * コントローラ
+ *
+ * こちらは 修正禁止 となっています。
+ *
+ * Class IndexController
+ * @package App\Http\Controllers
+ */
 class IndexController extends Controller
 {
     public function index()

@@ -8,6 +8,12 @@ use App\Http\Models\User;
 
 class PageUtility
 {
+    /**
+     * 検索
+     *
+     * @param $keyword
+     * @return array
+     */
     public static function findUserViewedPage($keyword){
         $pages = Page::where('title', 'LIKE', "$keyword%")->get();
         $activities = Activity::all();
