@@ -31,7 +31,7 @@
 
 ## 提出方法
 
-* github.com にプッシュしてリポジトリのURLを提出してください
+* このリポジトリをクローンし、ご自身のgithub.com にプッシュしてリポジトリのURLを提出してください
     * 【例】https://github.com/team-lab/teamlab-kadai-search-keyword-php
     * 差分が分かるようにこのサンプルのコミットと自分がチューニングしたコミットは分けてください
     * README.md ファイルを作成し、チューニングした内容を説明してください
