@@ -9,17 +9,18 @@ password="$1"
 
 cd /var/www/app
 
-echo "Waiting for mysql"
+echo "Execute mydb.sql"
 until mysql -h"$host" -u"$user" -p"$password" mydb < database/sql/init/mydb.sql &> /dev/null
 do
         sleep 1
-        echo "Waiting for mysql"
+        echo "Waiting for mysql(mydb.sql)"
 done
 
+echo "Execute alter.sql"
 until mysql -h"$host" -u"$user" -p"$password" mydb < database/sql/alter.sql &> /dev/null
 do
         sleep 1
-        echo "Waiting for mysql"
+        echo "Waiting for mysql(alter.sql)"
 done
 
 echo "MySQL is up - executing command"

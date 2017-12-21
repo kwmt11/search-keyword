@@ -6,7 +6,7 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - ./database/sql/:/docker-entrypoint-initdb.d
+            - ./database/sql/init/:/docker-entrypoint-initdb.d
             - ./database/sql/config/:/etc/mysql/conf.d
         environment:
             MYSQL_DATABASE: mydb
