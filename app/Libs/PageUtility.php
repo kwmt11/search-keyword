@@ -15,46 +15,50 @@ class PageUtility
      * @return array
      */
     public static function findUserViewedPage($keyword){
-        $pages = Page::where('title', 'LIKE', "$keyword%")->get();
-        $activities = Activity::all();
-        $users = User::all();
+        $pageModel = new Page();
+        $pages = $pageModel->getPagesByKeywordMapById($keyword);
+        $pageIds = $pages->keys()->toArray();
+
+        $activityModel = new Activity();
+        $activities = $activityModel->getActivitiesByPageIds($pageIds);
+
+        $userIds = [];
+        foreach ($activities as $active) {
+          $userIds[] = $active->user_id;
+        }
+        $userModel = new User();
+        $users = $userModel->getUsersMapById($userIds);
 
         $userPageMap = [];
-        $userPageArray = [];
-
-        for ($i = 0; $i < count($pages); $i++) {
-            $isFound = false;
-            for ($j = 0; $j < count($activities); $j++) {
-                if ($pages[$i]->id == $activities[$j]->page_id) {
-                    for ($k = 0; $k < count($users); $k++) {
-                        if ($users[$k]->id == $activities[$j]->user_id) {
-                            if(array_key_exists($users[$k]->id, $userPageMap)){
-                                $userPageMap[$users[$k]->id]['view_count'] = $userPageMap[$users[$k]->id]['view_count'] + 1;
-                            }else{
-                                $isFound = true;
-                                $userPage = [];
-                                $userPage['page_id'] = $pages[$i]->id;
-                                $userPage['page_title'] = $pages[$i]->title;
-                                $userPage['user_id'] = $users[$k]->id;
-                                $userPage['user_name'] = $users[$k]->name;
-                                $userPage['view_count'] = 1;
-                                $userPageMap[$users[$k]->id] = $userPage;
-                            }
-                        }
-
-                    }
-                }
-            }
-            if (!$isFound) {
-                $userPage = [];
-                $userPage['page_id'] = $pages[$i]->id;
-                $userPage['page_title'] = $pages[$i]->title;
-                $userPageArray[] = $userPage;
-            }
+        $foundPageIds = [];
+        foreach ($activities as $active) {
+          $userId = $active->user_id;
+          $pageId = $active->page_id;
+          if (!empty($userPageMap[$userId])) {
+              $userPageMap[$userId]['view_count'] = $userPageMap[$userId]['view_count']+1;
+          } else {
+              if (!in_array($pageId, $foundPageIds)) {
+                  $foundPageIds[] = $pageId;
+              }
+              $userPageMap[$userId] = [];
+              $userPage = [];
+              $userPage['page_id'] = $pages[$pageId]->id;
+              $userPage['page_title'] = $pages[$pageId]->title;
+              $userPage['user_id'] = $userId;
+              $userPage['user_name'] = $users[$userId]->name;
+              $userPage['view_count'] = 1;
+              $userPageMap[$userId] = $userPage;
+          }
         }
 
-        // ユーザIDでソート
-        ksort($userPageMap);
+        $userPageArray = [];
+        $notFoundPageIds = array_diff($pageIds, $foundPageIds);
+        foreach ($notFoundPageIds as $pageId) {
+            $userPage = [];
+            $userPage['page_id'] = $pages[$pageId]->id;
+            $userPage['page_title'] = $pages[$pageId]->title;
+            $userPageArray[] = $userPage;
+        }
 
         foreach ($userPageMap as $userPage) {
             $userPageArray[] = $userPage;
